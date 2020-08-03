@@ -1,0 +1,4 @@
+<ng-container *ngIf="(tasklists$ | async)?.length > 0">
+    <app-tasklist cdkDropListGroup class="row mt-5" [completeTasksList]="tasklists"></app-tasklist>
+</ng-container>
+

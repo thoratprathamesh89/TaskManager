@@ -1,0 +1,15 @@
+<div>
+    <button mat-flat-button 
+        class="col-12 mt-2" color="primary"
+        [hidden]="!isVissible" 
+        (click)="isVissible=!isVissible">
+        <span><i class="material-icons add_icon">add</i></span>
+        <span>Add {{type}}</span>
+    </button>
+    <div class="drag-container" [hidden]="isVissible">
+        <input [ngClass]="error ? 'err_class': ''" class="col-12 editable_field_input" [(ngModel)]="name"/>
+        <div color="danger">{{errorMsg}}</div>
+        <button class="add_btn" mat-flat-button color="primary" (click)="add()">Add</button>
+        <button class="cancel_btn" mat-flat-button color="white" (click)="cancel()">Cancel</button>
+    </div>
+</div>

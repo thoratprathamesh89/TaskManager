@@ -1,0 +1,6 @@
+<div class="row">
+    <mat-toolbar color="primary">
+        <div class="col-11">{{title}}</div>
+        <theme-menu class="col-1 menu-icon" [theme]="theme$ | async" (themeChange)="themeChangeHandler($event)"></theme-menu>
+    </mat-toolbar>
+</div>

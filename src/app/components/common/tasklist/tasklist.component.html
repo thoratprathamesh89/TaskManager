@@ -1,0 +1,58 @@
+<ng-container *ngFor="let taskslist of completeTasksList; index as i">
+        <div class="col-md-3 drag-container">
+            <div class="section-heading row">
+                <div class="col-10 editable_field" [ngClass]="showEditHeader[i] ? 'hide': 'show'"
+                    (click)="showEditPanel(i)">{{taskslist.name}}</div>
+                <input class="col-10 editable_field_input" #header_edit [ngClass]="!showEditHeader[i] ? 'hide': 'show'"
+                    [(ngModel)]="taskslist.name" (blur)="updateName(taskslist,i)" />
+                <button class="col-2 mat-list-menu" mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button (click)="delete(taskslist.name, 'list', '')" mat-menu-item>
+                      <mat-icon>remove_circle_outline</mat-icon>
+                      <span>Delete List</span>
+                    </button>
+                    <button mat-menu-item disabled>
+                      <mat-icon></mat-icon>
+                      <span>ToDo</span>
+                    </button>
+                    <button mat-menu-item disabled>
+                      <mat-icon></mat-icon>
+                      <span>ToDo</span>
+                    </button>
+                  </mat-menu>
+            </div>
+
+            <div cdkDropList id="{{taskslist.name}}" [cdkDropListData]="taskslist.list" class="item-list"
+                (cdkDropListDropped)="drop($event)">
+                <div cdkDrag class="item-box" *ngFor="let listItem of taskslist.list">
+                    <input class="long-value-input" value="{{listItem}}" />
+                    <!--<button class="col-2" mat-icon-button [matMenuTriggerFor]="menuItem">-->
+                        <i class="material-icons edit_btn" [matMenuTriggerFor]="menuItem">edit</i>
+                    <!--</button>-->
+                    <mat-menu #menuItem="matMenu">
+                        <button (click)="delete(taskslist.name, 'Task', listItem)" mat-menu-item>
+                          <mat-icon>remove_circle_outline</mat-icon>
+                          <span>Delete Task</span>
+                        </button>
+                        <button mat-menu-item disabled>
+                          <mat-icon></mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item disabled>
+                          <mat-icon></mat-icon>
+                          <span>Move to</span>
+                        </button>
+                      </mat-menu>
+                </div>
+            </div>
+
+            <div class="item-list padding-5">
+                <app-add type="Card" listName="{{taskslist.name}}"></app-add>
+            </div>
+        </div>
+</ng-container>
+<div class="col-md-3 drag-container_1">
+    <app-add type="List" listName=""></app-add>
+</div>

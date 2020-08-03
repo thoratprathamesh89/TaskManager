@@ -1,0 +1,10 @@
+.add_btn{
+    margin: 2px;
+}
+.add_icon{
+    position: relative;
+    top: 7px;
+}
+.err_class{
+    border: 1px solid red;
+}
