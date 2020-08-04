@@ -10,9 +10,10 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { HttpClientModule} from "@angular/common/http";
 
 import { TasklistComponent } from './tasklist.component';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog.service';
 import { DashboardService } from '../../dashboard/dashboard.service';
+import { ObserversModule } from '@angular/cdk/observers';
 
 
 describe('TasklistComponent', () => {
@@ -40,33 +41,40 @@ describe('TasklistComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should call show Edit Panel Method', fakeAsync(() => {
-    let ele = fixture.debugElement.query(By.css('.editable_field'));
-    spyOn(component, 'showEditPanel');
-    ele.triggerEventHandler('click', null);
-    tick();
-    fixture.detectChanges();
-    expect(component.showEditPanel).toHaveBeenCalled();
-  }));
-
   beforeEach(() => {
     spyOn(TestBed.get(MatDialog), 'open').and.callFake(()=> { return false });
     spyOn(dialogService, 'confirmed').and.callFake(() => {
       return of(true);
     });
-    spyOn(component,'actualDelete');
-    //spyOn(dashboardService, 'saveTaskList').and.callFake(() => { return of(1) } );
   });
 
-  it('On delete actual Delete function called', () => {
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should call show Edit Panel Method',() => {
+    let ele = fixture.debugElement.query(By.css('.editable_field'));
+    spyOn(component, 'showEditPanel').and.callThrough();
+    ele.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    expect(component.showEditPanel).toHaveBeenCalled();
+  });
+
+  it('On delete list actual Delete function called', () => {
+    spyOn(component,'actualDelete').and.callThrough();
     component.delete('todo', 'list', '');
     fixture.detectChanges();
     expect(component.actualDelete).toHaveBeenCalled();
     expect(component.actualDelete).toHaveBeenCalledWith('todo', 'list', '');
   });
+
+  it('On delete task actual Delete function called', () => {
+    spyOn(component,'actualDelete').and.callThrough();
+    component.delete('todo', 'card', 'test');
+    fixture.detectChanges();
+    expect(component.actualDelete).toHaveBeenCalled();
+    expect(component.actualDelete).toHaveBeenCalledWith('todo', 'card', 'test');
+  });
+
 
 });
